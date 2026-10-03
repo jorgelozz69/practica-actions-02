@@ -2,7 +2,7 @@
  
 Captura del pipeline con test y lint ejecutándose en paralelo, ambos en verde.
 
-![Test,lint verdes](img/Captura2.png)
+![Test,lint verdes](img/Captura1.png)
  
 Captura del pipeline en rojo tras romper el test a propósito, con el log del error abierto.
  
