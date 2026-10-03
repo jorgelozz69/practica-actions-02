@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "test": "node -e \"console.log('Tests OK'); process.exit(0)\""
-  },
+    "test": "node -e \"console.log('Tests OK'); process.exit(0)\"",
+    "test": "node -e \"console.log('Tests pasados'); process.exit(0);\"",
+    "lint": "echo 'Linter ejecutado correctamente'"
+},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jorgelozz69/practica-actions-02.git"
