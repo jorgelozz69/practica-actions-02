@@ -1,17 +1,17 @@
 name: CI
-  solo-en-main:
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "Esto solo se ve en main"
-on:
+ on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
 jobs:
-  test:
+  solo-en-main:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Esto solo se ve en main"
+test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
