@@ -1,6 +1,5 @@
-name: CI
-
-on:
+name: CIIII
+ on:
   push:
     branches: [ "main" ]
   pull_request:
@@ -20,7 +19,7 @@ jobs:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Esto solo se ve en main"  
+      - run: echo "Esto solo se ve en main"
 test:
     runs-on: ubuntu-latest
     strategy:
