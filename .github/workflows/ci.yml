@@ -1,5 +1,9 @@
 name: CI
-
+  solo-en-main:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Esto solo se ve en main"
 on:
   push:
     branches: [ "main" ]
