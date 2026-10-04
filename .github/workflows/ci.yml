@@ -1,5 +1,6 @@
-name: CIIII
- on:
+name: CI
+
+on:
   push:
     branches: [ "main" ]
   pull_request:
@@ -8,30 +9,46 @@ name: CIIII
 jobs:
   test:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout del código
-        uses: actions/checkout@v3
-      - name: Usar secreto sin exponerlo
-        env:
-          MI_SECRETO: ${{ secrets.SALUDO_SECRETO }}
-        run: echo "El secreto tiene $(echo -n "$MI_SECRETO" | wc -c) caracteres"
-  solo-en-main:
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "Esto solo se ve en main"
-test:
-    runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [18, 20, 22]
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js (${{ matrix.node-version }})
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm install
-      - run: npm test
+
+      - name: Instalar dependencias
+        run: npm install
+
+      # ==========================================
+      # AQUÍ METEMOS EL FALLO (exit 1) PARA LA PRÁCTICA
+      # ==========================================
+      - name: Ejecutar pruebas (Provocando fallo temporal)
+        run: |
+          echo "Simulando fallo en las pruebas..."
+          exit 1
+          # npm test  <-- (Aquí irá tu npm test normal una vez superada la práctica)
+
+      - name: Step normal posterior (Se saltará si falla el test)
+        run: echo "Esto no debería ejecutarse"
+
+      - name: Usar secreto sin exponerlo
+        env:
+          MI_SECRETO: ${{ secrets.SALUDO_SECRETO }}
+        run: echo "El secreto tiene \((echo -n "\)MI_SECRETO" | wc -c) caracteres"
+
+      - name: Avisar de fallo
+        if: failure()
+        run: echo "¡Atención! Las pruebas han fallado en este job."
+
+      - name: Limpieza final
+        if: always()
+        run: echo "Realizando limpieza final obligatoria..."
+
   lint:
     runs-on: ubuntu-latest
     steps:
@@ -42,3 +59,8 @@ test:
       - run: npm install
       - run: npm run lint
 
+  solo-en-main:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Esto solo se ve en main"
